@@ -26,44 +26,53 @@ public class InputHandeller {
         }
         else if(input.contains("park"))
         {
+            handelParkingAndUnparking(input);
+        }
+    }
+
+    private void handelParkingAndUnparking(String input) {
+
+        if(input.contains("unpark"))
+        {
+
+           handelUnpark(input);
+        }
+        else{
             handelParking(input);
         }
     }
 
     private void handelParking(String input) {
-
-        if(input.contains("unpark"))
-        {
-            //unpark_vehicle PR1234_2_5
-            String []parkingDetails=input.split(" ");
-
-            String[]parkingPosDetails=parkingDetails[1].split("_");
-            String slotNoString=parkingPosDetails[2];
-            int slotNo=Integer.parseInt(slotNoString)-1;
-            String floorNoString=parkingPosDetails[1];
-            int floorNo=Integer.parseInt(floorNoString)-1;
-            parkingManagementSystem.unPark(floorNo,slotNo);
+        //park_vehicle CAR KA-01-DF-8230 black
+        String[]parkingVehicleDetails=input.split(" ");
+        String vehicleType =parkingVehicleDetails[1];
+        String registration=parkingVehicleDetails[2];
+        String color=parkingVehicleDetails[3];
+        Vehicle vehicle=null;
+        if(vehicleType.equalsIgnoreCase("CAR")) {
+            vehicle= new Car.CarBuilder().setRegistration(registration).setType(vehicleType).setColor(color).build();
+            parkingManagementSystem.parkVehicle(vehicle);
+        }
+        else if(vehicleType.equalsIgnoreCase("BIKE")) {
+            vehicle= new Bike.BikeBuilder().setRegistration(registration).setType(vehicleType).setColor(color).build();
+            parkingManagementSystem.parkVehicle(vehicle);
         }
         else{
-            //park_vehicle CAR KA-01-DF-8230 black
-                String[]parkingVehicleDetails=input.split(" ");
-                String vehicleType =parkingVehicleDetails[1];
-                String registration=parkingVehicleDetails[2];
-                String color=parkingVehicleDetails[3];
-                Vehicle vehicle=null;
-                if(vehicleType.equalsIgnoreCase("CAR")) {
-                   vehicle= new Car.CarBuilder().setRegistration(registration).setType(vehicleType).setColor(color).build();
-                    parkingManagementSystem.parkVehicle(vehicle);
-                }
-                else if(vehicleType.equalsIgnoreCase("BIKE")) {
-                vehicle= new Bike.BikeBuilder().setRegistration(registration).setType(vehicleType).setColor(color).build();
-                parkingManagementSystem.parkVehicle(vehicle);
-            }
-                else{
-                    vehicle= new Truck.TruckBuilder().setRegistration(registration).setType(vehicleType).setColor(color).build();
-                    parkingManagementSystem.parkVehicle(vehicle);
-                }
+            vehicle= new Truck.TruckBuilder().setRegistration(registration).setType(vehicleType).setColor(color).build();
+            parkingManagementSystem.parkVehicle(vehicle);
         }
+    }
+
+    private void handelUnpark(String input) {
+        //unpark_vehicle PR1234_2_5
+        String []parkingDetails=input.split(" ");
+
+        String[]parkingPosDetails=parkingDetails[1].split("_");
+        String slotNoString=parkingPosDetails[2];
+        int slotNo=Integer.parseInt(slotNoString)-1;
+        String floorNoString=parkingPosDetails[1];
+        int floorNo=Integer.parseInt(floorNoString)-1;
+        parkingManagementSystem.unPark(floorNo,slotNo);
     }
 
     public void handelDisplay(String input) {

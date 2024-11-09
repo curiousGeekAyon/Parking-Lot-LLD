@@ -62,16 +62,16 @@ public class ParkingManagementSystem {
         }
     }
 
-    public boolean hasCarSlot(Floor floor){
+    private boolean hasCarSlot(Floor floor){
         return (floor.carCapacity-floor.carCount)>0?true:false;
     }
-    public boolean hasBikeSlot(Floor floor){
+    private boolean hasBikeSlot(Floor floor){
         return (floor.bikeCapacity-floor.bikeCount)>0?true:false;
     }
-    public boolean hasTruckSlot(Floor floor){
+    private boolean hasTruckSlot(Floor floor){
         return (floor.truckCapacity-floor.truckCount)>0?true:false;
     }
-    public int getAvailableBikeSlotNo(Floor floor)
+    private int getAvailableBikeSlotNo(Floor floor)
     {
         Vehicle[]slots=floor.getSlots();
         if(slots[1]==null)
@@ -103,7 +103,7 @@ public class ParkingManagementSystem {
         }
         return -1;
     }
-    public void park(Floor floor,int slotNo,Vehicle vehicle)
+    private void park(Floor floor,int slotNo,Vehicle vehicle)
     {
         Vehicle[]slots=floor.getSlots();
         slots[slotNo]=vehicle;
@@ -154,7 +154,7 @@ public class ParkingManagementSystem {
         System.out.println("Unparked vehicle with Registration Number: "+removedVehicle.getRegistration()+" and color: "+removedVehicle.getColor());
     }
 
-    public boolean checkifFloorandSlotBothInBounds(int floorNo,int slotsCount) {
+    private boolean checkifFloorandSlotBothInBounds(int floorNo,int slotsCount) {
         List<Floor>floorList=parkingLot.getFloorList();
         int floorsCount=floorList.size();
         int slotCountPerFloor=floorList.getFirst().getSlots().length;
